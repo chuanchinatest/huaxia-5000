@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>华夏五千年 · 上下求索</title>
+<style>
+  :root{
+    --bg:#0d0b08; --bg2:#151109; --ink:#e8dcc3; --dim:#a89a7d;
+    --gold:#c9a86a; --gold2:#b08d4f; --red:#8c3a2b; --line:#2c251a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(140,58,43,.18), transparent 60%),
+      linear-gradient(180deg,var(--bg2),var(--bg) 40%);
+    color:var(--ink);
+    font-family:"Songti SC","Noto Serif SC","STSong","SimSun",serif;
+    line-height:1.8;
+  }
+  ::selection{background:var(--gold);color:#141008}
+
+  /* ---------- 卷首 ---------- */
+  .hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;
+        align-items:center;text-align:center;position:relative;overflow:hidden;
+        border-bottom:1px solid var(--line)}
+  .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(600px 300px at 50% 110%, rgba(176,141,79,.10), transparent 70%);
+  }
+  .seal{
+    width:88px;height:88px;border:3px solid var(--red);border-radius:10px;
+    display:grid;place-items:center;color:#c8503a;
+    font-size:2.1rem;font-weight:700;letter-spacing:.1em;
+    box-shadow:0 0 0 3px rgba(200,80,58,.15), 0 0 40px rgba(140,58,43,.35);
+    background:rgba(140,58,43,.08);margin-bottom:2rem;
+    animation:fade 1.4s ease both;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem,7vw,4.6rem);letter-spacing:.35em;text-indent:.35em;
+    color:var(--ink);font-weight:700;
+    animation:fade 1.4s .2s ease both;
+  }
+  .hero .sub{
+    margin-top:1rem;color:var(--dim);letter-spacing:.5em;text-indent:.5em;
+    font-size:.95rem;animation:fade 1.4s .5s ease both;
+  }
+  .hero .down{
+    margin-top:4rem;color:var(--gold);text-decoration:none;font-size:.85rem;
+    letter-spacing:.3em;border:1px solid var(--line);padding:.7rem 1.6rem;border-radius:2rem;
+    transition:.3s;animation:fade 1.4s .8s ease both;
+  }
+  .hero .down:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* ---------- 时间轴 ---------- */
+  .wrap{max-width:960px;margin:0 auto;padding:4rem 1.2rem 6rem}
+  .era{position:relative;padding-left:3.2rem;margin-bottom:3.4rem}
+  .era::before{content:"";position:absolute;left:11px;top:8px;bottom:-1.4rem;
+    width:2px;background:linear-gradient(180deg,var(--gold2),transparent)}
+  .era:last-child::before{bottom:auto;height:100%}
+  .dot{position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;
+    border:2px solid var(--gold2);background:var(--bg);
+    display:grid;place-items:center;color:var(--gold);font-size:.62rem}
+  .era h2{
+    font-size:1.6rem;color:var(--gold);letter-spacing:.2em;cursor:pointer;
+    display:flex;align-items:baseline;gap:.8rem;user-select:none;
+  }
+  .era h2 small{font-size:.8rem;color:var(--dim);letter-spacing:.1em;font-weight:400}
+  .era h2 .arrow{margin-left:auto;color:var(--gold2);transition:transform .3s;font-size:.9rem}
+  .era.open h2 .arrow{transform:rotate(90deg)}
+  .body{max-height:0;overflow:hidden;transition:max-height .5s ease}
+  .era.open .body{max-height:1200px}
+  .card{
+    margin-top:1rem;background:rgba(21,17,9,.75);border:1px solid var(--line);
+    border-radius:.8rem;padding:1.2rem 1.4rem;
+  }
+  .card p{color:var(--dim);font-size:.95rem}
+  .tags{margin-top:.7rem;display:flex;flex-wrap:wrap;gap:.5rem}
+  .tag{font-size:.75rem;color:var(--gold);border:1px solid rgba(176,141,79,.35);
+       border-radius:1rem;padding:.15rem .7rem;background:rgba(176,141,79,.06)}
+
+  /* ---------- 名句 ---------- */
+  .quote{
+    margin:2rem auto 0;max-width:720px;text-align:center;color:var(--dim);
+    font-size:1.05rem;letter-spacing:.15em;padding:0 1rem 4rem;
+  }
+  .quote b{color:var(--gold);font-weight:400}
+
+  footer{border-top:1px solid var(--line);padding:2rem;text-align:center;
+         color:var(--dim);font-size:.8rem;letter-spacing:.2em}
+
+  @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="seal">史</div>
+  <h1>华夏五千年</h1>
+  <p class="sub">从传说到文明 · 上下求索</p>
+  <a class="down" href="#start">展开时间轴 ↓</a>
+</header>
+
+<main class="wrap" id="start"></main>
+
+<p class="quote">「欲知大道，<b>必先为史</b>。」<br>—— 以史为镜，可以知兴替。</p>
+
+<footer>华夏五千年 · 一个人的文明长卷</footer>
+
+<script>
+const ERAS = [
+  {name:"夏", span:"约前2070 – 前1600", note:"家天下之始",
+   text:"大禹治水有功，禹子启继位，公天下变为家天下，中国王朝史自此发端。二里头遗址的宫城与青铜礼器，是这段传说时代留下的最早实物注脚。",
+   tags:["大禹治水","世袭制","二里头文化"]},
+  {name:"商", span:"约前1600 – 前1046", note:"甲骨与青铜",
+   text:"成汤灭夏立商。甲骨文让占卜成为史料，后母戊鼎重逾八百公斤，殷墟妇好墓重现女将军的排场。商人尚鬼，占卜贯穿家国大事。",
+   tags:["甲骨文","殷墟","司母戊鼎"]},
+  {name:"西周", span:"前1046 – 前771", note:"礼乐天下",
+   text:"武王伐纣，周公制礼作乐，分封诸侯屏藩王室。『普天之下，莫非王土』；青铜器上的金文把册命与誓约铸进时光。",
+   tags:["分封制","宗法制","礼乐文明"]},
+  {name:"春秋", span:"前770 – 前476", note:"百家争鸣前夜",
+   text:"平王东迁，王纲解纽，五霸迭兴。孔丘周游列国，把『仁』与『礼』讲成之后两千年的常识；铁器与牛耕悄悄改写田间秩序。",
+   tags:["五霸","孔子","铁器牛耕"]},
+  {name:"战国", span:"前475 – 前221", note:"变法与兼并",
+   text:"七雄并立，商鞅变法让西陲秦国脱胎换骨。百家争鸣臻于极盛：孟子的浩然、庄子的逍遥、屈原的天问，都诞生在战火与竹简之间。",
+   tags:["商鞅变法","合纵连横","百家争鸣"]},
+  {name:"秦", span:"前221 – 前207", note:"大一统原点",
+   text:"嬴政扫六合，称始皇帝。书同文、车同轨、统一度量衡，郡县制取代分封；长城与兵马俑同修，帝制中国自此有了骨架。",
+   tags:["书同文","郡县制","长城"]},
+  {name:"汉", span:"前202 – 220", note:"铸就民族之名",
+   text:"文景之治蓄力，汉武开边：张骞凿空西域，丝路通向罗马。太史公忍辱著《史记》，蔡伦改进造纸——汉族、汉字、汉学，皆以这个朝代为名。",
+   tags:["丝绸之路","史记","造纸术"]},
+  {name:"三国两晋南北朝", span:"220 – 589", note:"分裂中的融合",
+   text:"三国鼎立、衣冠南渡、五胡入华。战乱阻不断文明的生长：王羲之写就《兰亭序》，云冈龙门凿出大佛，北魏孝文帝迁都易服，胡与汉在马背上与田垄间彼此接纳。",
+   tags:["赤壁","孝文帝改革","书法石窟"]},
+  {name:"隋唐", span:"581 – 907", note:"盛世气象",
+   text:"运河贯通南北，科举打破门第。长安是当时世界上最大的城市，李白醉笔、杜甫沉郁、玄奘西行、鉴真东渡——开放与自信是那个时代的底色。",
+   tags:["大运河","科举制","唐诗"]},
+  {name:"宋", span:"960 – 1279", note:"文治与风雅",
+   text:"重文轻武的王朝，却拥有当时世界最繁华的商业与最精的瓷器。活字印刷、指南针、火药在此走向成熟；《清明上河图》里，市井烟火绵延十里。",
+   tags:["四大发明","宋词","清明上河图"]},
+  {name:"元", span:"1271 – 1368", note:"横跨欧亚",
+   text:"蒙古铁骑建立了人类历史上疆域最广的陆地帝国之一。驿道直通大都，马可·波罗的游记让西方第一次真正‘看见’中国；元曲在勾栏瓦舍里唱尽悲欢。",
+   tags:["驿路","元曲","大都"]},
+  {name:"明", span:"1368 – 1644", note:"远航与长城",
+   text:"郑和七下西洋，宝船直抵东非；紫禁城落成，《永乐大典》修成。晚明江南市镇繁荣，小说戏曲兴起——《西游记》《水浒传》至今仍在被讲述。",
+   tags:["郑和下西洋","紫禁城","四大名著"]},
+  {name:"清", span:"1644 – 1912", note:"帝制余晖",
+   text:"康乾疆域奠定今日中国版图之基；晋商徽帮、票号茶路串起全球贸易。而关外炮声响起时，一个古老文明开始被迫面对三千年未有之大变局。",
+   tags:["康乾盛世","疆域奠定","近代前夜"]},
+];
+
+const box = document.getElementById('start');
+box.innerHTML = ERAS.map((e,i)=>`
+  <section class="era ${i===0?'open':''}">
+    <span class="dot">${String(i+1).padStart(2,'0')}</span>
+    <h2 onclick="this.parentElement.classList.toggle('open')">
+      ${e.name} <small>${e.span} · ${e.note}</small>
+      <span class="arrow">▶</span>
+    </h2>
+    <div class="body"><div class="card">
+      <p>${e.text}</p>
+      <div class="tags">${e.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    </div></div>
+  </section>`).join('');
+</script>
+</body>
+</html>
